@@ -1,0 +1,194 @@
+// Croitoru Constantin Bogdan Grupa 314CA
+#include <stdio.h>
+#define NMAX 401
+
+// se verifica ce valori se pot pune pe linia X citita
+void operatie_tip1(int N, int a[NMAX][NMAX])
+{
+	int v[NMAX] = {0}, X, j;
+	scanf("%d", &X);
+	for (j = 0; j < N * N; j++)
+		if (a[X - 1][j])
+			v[a[X - 1][j]] += 1;
+
+	for (j = 1; j <= N * N; j++)
+		if (v[j] == 0)
+			printf("1 ");
+		else
+			printf("0 ");
+
+	printf("\n");
+}
+
+// se verifica ce valori se pot pune pe coloana Y citita
+void operatie_tip2(int N, int a[NMAX][NMAX])
+{
+	int Y, v[NMAX] = {0}, i;
+	scanf("%d", &Y);
+	for (i = 0; i < N * N; i++)
+		if (a[i][Y - 1])
+			v[a[i][Y - 1]] += 1;
+
+	for (i = 1; i <= N * N; i++)
+		if (v[i] == 0)
+			printf("1 ");
+		else
+			printf("0 ");
+
+	printf("\n");
+}
+
+// se verifica ce valori se pot pune in careul Z
+void operatie_tip3(int N, int a[NMAX][NMAX])
+{
+	int Z, v[NMAX] = {0}, i, j;
+	scanf("%d", &Z);
+	Z = Z - 1;
+	for (i = N * (Z / N); i < N * (Z / N + 1); i++)
+		for (j = N * (Z % N); j < N * (Z % N + 1); j++)
+			if (a[i][j])
+				v[a[i][j]] += 1;
+
+	for (i = 1; i <= N * N; i++)
+		if (v[i] == 0)
+			printf("1 ");
+		else
+			printf("0 ");
+
+	printf("\n");
+}
+
+// se verifica ce valori se pot pune in casuta de coordonate X si Y
+void operatie_tip4(int N, int a[NMAX][NMAX])
+{
+	int X, i, j, Y, v[NMAX] = {0}; // v=un vector de frecventa al cifrelor
+	scanf("%d", &X);
+	scanf("%d", &Y);
+	X = X - 1;
+	Y = Y - 1;
+	if (a[X][Y] == 0) {
+		for (i = 0; i < N * N; i++) {// se verifica linia si coloana
+			if (a[X][i])
+				v[a[X][i]] += 1;
+			if (a[i][Y])
+				v[a[i][Y]] += 1;
+		}
+		//se verifica careul
+		for (i = N * (X / N); i < N * (X / N + 1); i++)
+			for (j = N * (Y / N); j < N * (Y / N + 1); j++)
+				if (a[i][j])
+					v[a[i][j]] += 1;
+
+		for (i = 1; i <= N * N; i++)
+			if (v[i] == 0)
+				printf("1 ");
+			else
+				printf("0 ");
+	} else {
+		for (i = 1; i <= N * N; i++)
+			printf("0 ");
+	}
+	printf("\n");
+}
+
+// se adauga o valoare Z  in casuta cu coordonatele X si Y
+void operatie_tip5(int a[NMAX][NMAX])
+{
+	int X, Y, C;
+	scanf("%d", &X);
+	scanf("%d", &Y);
+	scanf("%d", &C);
+	if (a[X - 1][Y - 1] == 0)
+		a[X - 1][Y - 1] = C;
+}
+
+//se verifica starea curenta a tablei
+void operatie_tip6(int N, int a[NMAX][NMAX])
+{
+	int ok = 1, i, j, k, ok1, v[NMAX], l;
+	// ok=daca tabela este invalida sau nu; 1=valida, 0=invalida
+	// ok1=daca tabela mai poate fi completata; 1= completa, 0=caz contrar
+
+	for (i = 0; i < N * N && ok == 1; i++) { // se verifica pt fiecare linie
+		for (k = 0; k <= N * N; k++)
+			v[k] = 0;
+
+		for (j = 0; j < N * N; j++)
+			if (a[i][j] != 0)
+				v[a[i][j]] += 1;
+
+		for (k = 1; k <= N * N && ok == 1; k++)
+			if (v[k] > 1)
+				ok = 0;
+	}
+
+	for (j = 0; j < N * N && ok == 1; j++) { // se verifica pt fiecare coloana
+		for (k = 0; k <= N * N; k++)
+			v[k] = 0;
+
+		for (i = 0; i < N * N; i++)
+			if (a[i][j])
+				v[a[i][j]] += 1;
+
+		for (k = 1; k <= N * N && ok == 1; k++)
+			if (v[k] > 1)
+				ok = 0;
+	}
+
+	for (l = 0; l < N * N && ok == 1; l++) { // se verifica pt fiecare careu
+		for (k = 0; k <= N * N; k++)
+			v[k] = 0;
+
+		for (i = N * (l / N); i < N * (l / N + 1); i++)
+			for (j = N * (l % N); j < N * (l % N + 1); j++)
+				if (a[i][j])
+					v[a[i][j]] += 1;
+
+		for (k = 1; k <= N * N && ok == 1; k++)
+			if (v[k] > 1)
+				ok = 0;
+	}
+
+	if (ok == 0) { // invalida
+		printf("1\n");
+	} else {// se verifica daca se mai poate completa sau nu
+		ok1 = 1;
+		for (i = 0; i < N * N && ok1 == 1; i++)
+			for (j = 0; j < N * N && ok1 == 1; j++)
+				if (a[i][j] == 0)
+					ok1 = 0;
+
+		if (ok1 == 0)
+			printf("0\n");
+		else
+			printf("2\n");
+	}
+}
+
+int main(void)
+{
+	int N, M, i, j, x, q, a[NMAX][NMAX];
+	scanf("%d%d", &N, &M);
+
+	for (i = 0; i < N * N; i++)
+		for (j = 0; j < N * N; j++)
+			scanf("%d", &a[i][j]);
+
+	for (q = 0; q < M; q++) {
+		scanf("%d", &x);
+
+		if (x == 1)
+			operatie_tip1(N, a);
+		else if (x == 2)
+			operatie_tip2(N, a);
+		else if (x == 3)
+			operatie_tip3(N, a);
+		else if (x == 4)
+			operatie_tip4(N, a);
+		else if (x == 5)
+			operatie_tip5(a);
+		else if (x == 6)
+			operatie_tip6(N, a);
+	}
+	return 0;
+}
