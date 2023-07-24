@@ -1,0 +1,115 @@
+// Croitoru Constantin Bogdan Grupa 314CA
+#include <stdio.h>
+
+// functia calculeaza cel mai mare divizor comun pentru 2 numere
+int cmmdc(int a, int b)
+{
+	while (b != 0) {
+		int r = a % b;
+		a = b;
+		b = r;
+	}
+
+	return a;
+}
+
+// functia verifica daca se poate afisa o alerta, ok=cate litere diferite exista
+// k= numarul de litere citit, k2=numarul de litere de la ultima alerta afisata
+int alerta(int k, int v[], int ok, int k2)
+{
+	int i;
+	for (i = 0; i < 26; i++) {
+		if (k >= 5 && ok > 1 && k2 >= 5) {
+			if (v[i] >= (k + 1) / 2) {
+				k2 = 0;
+				int div = cmmdc(v[i], k);
+				printf("%c %d/%d\n", i + 'a', v[i] / div, k / div);
+			}
+		}
+	}
+	return k2;
+}
+
+// v1 este o copie a vectorului de apritii v
+// functia ordoneaza in v1 literele in functie de nr de aparitii
+// vectorul p retine pozitiile literelor
+void ordonare_aparitii(int v[], int v1[], int p[])
+{
+	int i, j;
+	for (i = 0; i <= 26; i++) {
+		v1[i] = v[i];
+		p[i] = i;
+	}
+
+	for (i = 0; i < 25; i++)
+		for (j = i + 1; j < 26; j++)
+			if (v1[i] < v1[j]) {
+				int aux1, aux2;
+				aux1 = v1[i];
+				v1[i] = v1[j];
+				v1[j] = aux1;
+
+				aux2 = p[i];
+				p[i] = p[j];
+				p[j] = aux2;
+			}
+}
+
+//functia ordoneaza in v1 literele care au acelasi nr de aparitii lexicografic
+void ordonare_litere(int v1[], int p[])
+{
+	int j, k;
+	for (j = 1; j < 25; j++)
+		for (k = j + 1; k < 26; k++) {
+			if (p[j] > p[k] && v1[j] == v1[k]) {
+				int aux = p[j];
+				p[j] = p[k];
+				p[k] = aux;
+			}
+		}
+}
+
+int main(void)
+{
+	char x;
+	int v[27] = {0}, k = 0, ok = 0, k2 = 0, i;
+
+	scanf("%c", &x);
+	while ((('a' <= x) && (x <= 'z')) || x == 'Q' || x == 'T' || x == 'E') {
+		if (x == 'E') { // se elimina aparitiile unei litere
+			char L;
+			scanf(" %c", &L);
+			k = k - v[L - 'a'];
+			v[L - 'a'] = 0;
+			ok = 0;
+		} else if (x == 'Q') { // afiseaza aparitiile unei litere
+			char y;
+			scanf(" %c", &y);
+			printf("%c %d\n", y, v[y - 'a']);
+		} else if (x == 'T') { // afiseaza cele mai importante k litere
+			int k;
+			scanf("%d", &k);
+			int i, v1[26], p[26];
+
+			ordonare_aparitii(v, v1, p);
+			ordonare_litere(v1, p);
+
+			for (i = 0; i < k - 1; i++)
+				printf("%c ", p[i] + 'a');
+			printf("%c", p[i] + 'a');
+			printf("\n");
+
+		} else { // creste aparitia unei litere si se apeleaza functia alerta
+			v[x - 'a'] += 1;
+			k++;
+			k2++;
+			for (i = 0; i < 27; i++)
+				if (v[i])
+					ok++;
+
+			k2 = alerta(k, v, ok, k2);
+		}
+		scanf(" %c", &x);
+	}
+	return 0;
+}
