@@ -1,0 +1,45 @@
+Croitoru Constantin-Bogdan Grupa 314CA
+
+Problema 1 infinite_product
+
+Problema citeste numarul N, iar apoi N perechi de forma (ai,bi), valorile sunt citite in baza 8, si pentru a le schimba in baza 10 folosesc functia schimbare_baza. In timp ce se citesc perechile de numere, se calculeaza in variabila ps produsul scalar, primele 2 maxime ale lui a , respectiv b si in n_a norma lui a, n_b norma lui b.
+Pentru a determina maximul al doilea pentru a, folosesc doua variabile una pentru primul max reprezentata de a1_max, si a2_max pentru al doilea maxim. Initial acestea sunt declarate cu -1, pentru a putea afisa -1 in caz ca nu exista al doilea max. Pentru determinarea maximului al doilea al lui b se foloseste aceeasi idee.
+La terminarea citirii perechilor de valori (ai,bi), fiecare norma primeste valoarea radicalului din valoarea sa, iar apoi sunt afisate rezultate astfel :pe prima linie produsul scalar ps, pe a doua maximul al doilea pentru a, respectiv pentru b, si pe ultima linie norma lui a si norma lui b afisate cu exact 7 zecimale.
+
+
+Problema 2 simple_queries
+
+Pentru a rezolva problema folosesc functiile: cmmdc, alerta, ordonare_aparitii, ordonare_litere. Cmmdc calculeaza si returneaza cel mai mare divizor pentru doua numere, functia alerta are rolul de a afisara o alerta daca conditiile sunt indeplinite. Aceasta primeste ca parametri:k,ok,k2,(unde k=numarul total de litere citite pana la apelarea functie, ok calculeaza cate litere sunt diferite, si k2=numarul de litere de la ultima alerta afisata). Daca conditiile sunt indeplinite, aceasta afiseaza alerta, adica litera urmata de fractia simplificata. Functia ordonare_aparitii creaza o copie, v1, a vectorului de apritii v, si le ordoneaza descrescator in functie de numarul de aparitii.Tot in aceasta functie este prezent un vector p care reprezinta pozitiile care sunt modificate odata cu ordonarea lui v1.
+Functie ordonare_litere, ordoneaza vectorul v1 dupa ce a fost ordonat in functie de numarul de aparitii, in ordine lexicografica pentru literele care au acelasi numar de aparitii.
+Programul citeste litere atat timp cat aceastea sunt cuprinse intre a si z, adica sa fie litere mici, sau sa fie egala cu una din literele: Q,T,E.
+Daca litera citita este egala cu E, se citeste o litera, se sterg aparitiile acestei litere, iar din numarul total de litere se scade numarul de aparitii al literei citite.
+Daca este Q, se citeste o litera si se afiseaza numarul de aparitii al literei, iar daca este T, se citeste o valoare k, si se afiseaza cele mai importate k litere.
+Daca litere este cuprinsa intre a si z, vectorul de aparitii creste, si se apeleaza functia alerta, pentru a verifica daca se poate afisa o alerta.
+
+
+Problema 3 gigel_and_the_checkboard
+
+Programul citeste un un nr n iar apoi o matrice cu n linii si n coloane, care reprezinta tabla. Pentru a vedea daca casuta este alba folosim urmatoara logica: daca i si j au aceeasi paritate casuta este alba, iar daca i si j au paritate diferita casuta este maro.
+Distanta retinuta de d creste cu modulul lui x, unde x retine numarul de pe biletul continut de fiecare casuta.
+Daca casuta este alba, k retine restul impartirii sumei dintre i si x la n. Daca k este pozitiv noua coloana este k, iar in caz contrar n + k 
+Aceeasi logica se foloseste si cand casuta este negra.
+Dupa fiecare parcurgere al unui element al matricii acesta devine 0.
+Programul calculeaza distanata atat timp cat continul casutei este diferit de 0.
+La final acesta afiseaza distanta, linia este reprezentata de valoare lui n -i.
+Pentru afisarea coloanei cu litere folosim urmatoarea logica:
+ -daca j<26 (nr de litere din alfabet) atunci afisam: j+'A'.
+ -in caz contrar daca j<26*27(26 de cazuri pt o singura litera + 26*26 de cazuri posibile cand avem 2 litere) afisam: j/26 - 1 +'A', iar apoi restul lui j%n + 'A'.
+ -in caz contrar afisam: j/(26*26)%26 -1 + 'A', (j/26)%26 - 1 + 'A', j%26 + 'A'.
+ 
+ 
+ Problema 4 another_queries
+ 
+ Programul citeste numerele N, M unde M reprezinta numarul de operatii si o matrice cu N*N linii si tot atatea coloane.
+ Pentru rezolvarea problemei folosesc cate o functie pentru fiecare operatie.
+ Functia operatie_tip1 verifica ce valori se pot pune pe linia X. Acesta foloseste un vector de frecventa, iar la final pentru cifrele al caror vector de frecventa este 0 afisam 1, iar in caz contrar 1.
+ Functiile operatie_tip2 si operatie_tip3 sunt la fel ca operatie_tip1, doar ca operatie_tip2 verifica pe coloane, iar operatie_tip3 pe careuri.
+ Functia operatie_tip4 verifica ce valori se pot pune in casuta de coordonate X si Y. Aceasta foloseste un vector de frecventa, iar pentru fiecare cifra care apare pe linia X, sau pe coloana Y sau in careul determinat de X si Y , vectorul de frecventa creste cu o unitate. La final pentru cifrele al caror vector de frecventa este 0 afisam 1, altfel afisam 0.
+ Functia operatie_tip5 citeeste 3 numere si pune in casuta determinata de X si Y valoarea lui Z daca aceasta este goala.
+ Functia operatie_tip6 verifica starea curenta. Prima data verificam daca este valid sau invalid. Pentru aceasta luam ok=1 presupunand ca este valid. Apoi pentru fiecare linie, coloana sau careu, se verifica daca o cifra apare mai mult decat o data. Daca apare atunci ok=0 si este invalid.
+ In caz contrar(ok==1) mai luam un ok1=1 (presupunand ca s-a incheiat)  pentru a vedea daca jocul s-a terminat sau mai poate fi completat
+ Daca in matrice se gaseste macar o valoare de 0 atunci ok=0, iar jocul mai poate fi continuat, altfel jocul a fost castigat(ok==1).
