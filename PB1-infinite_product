@@ -1,0 +1,56 @@
+// Croitoru Constantin Bogdan Grupa 314CA
+#include <stdio.h>
+#include <math.h>
+long schimbare_baza(long n) // Schimb numarul n din baza 8 in baza 10
+{
+	long p = 1, nr = 0;
+	while (n) {
+		nr += n % 10 * p;
+		p *= 8;
+		n /= 10;
+	}
+	return nr;
+}
+
+int main(void)
+{
+	long N, i, a, b, a2_max = -1, b2_max = -1, a1_max = -1, b1_max = -1;
+	unsigned long long ps = 0;
+	double n_a = 0, n_b = 0;
+	scanf("%ld", &N);
+
+	for (i = 0; i < N; i++) {
+		scanf("%ld", &a);
+		a = schimbare_baza(a);
+
+		scanf("%ld", &b);
+		b = schimbare_baza(b);
+
+		ps += a * b;
+// se calculeaza primele 2 maxime pentru a,respectiv b
+		if (a > a1_max) {
+			a2_max = a1_max;
+			a1_max = a;
+		} else {
+			if (a != a1_max && a > a2_max)
+				a2_max = a;
+		}
+
+		if (b > b1_max) {
+			b2_max = b1_max;
+			b1_max = b;
+		} else {
+			if (b != b1_max && b > b2_max)
+				b2_max = b;
+		}
+// se calculeaza norma pentru a, respectiv b
+		n_a += pow(a, 2);
+		n_b += pow(b, 2);
+	}
+
+	n_a = sqrt(n_a);
+	n_b = sqrt(n_b);
+	printf("%lld\n%ld %ld\n%.7lf %.7lf\n", ps, a2_max, b2_max, n_a, n_b);
+
+	return 0;
+}
