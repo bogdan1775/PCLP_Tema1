@@ -1,0 +1,58 @@
+// Croitoru Constantin Bogdan Grupa 314CA
+#include <math.h>
+#include <stdio.h>
+#define NMAX 1000
+
+int main(void)
+{
+	int n, i, j, k;
+	long a[NMAX][NMAX], d = 0, x;
+// se citeste n si matricea
+	scanf("%d", &n);
+
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			scanf("%ld", &a[i][j]);
+
+// x este numarul din casuta
+	x = a[0][0];
+	a[0][0] = 0;
+	i = 0;
+	j = 0;
+	while (x) { // d reprezinta distanta
+		if (x > 0)
+			d += x;
+		else
+			d += x * (-1);
+		if ((i % 2) != (j % 2)) { // paritate diferita = casuta neagra
+			k = (i + x) % n;
+			if (k >= 0)
+				i = k;
+			else
+				i = n + k;
+		} else { // aceeasi paritate = casuta alba
+			k = (j + x) % n;
+			if (k >= 0)
+				j = k;
+			else
+				j = n + k;
+		}
+		x = a[i][j];
+		a[i][j] = 0;
+	}
+	printf("%ld\n", d);
+// se afiseaza linia
+	printf("%d ", n - i);
+
+// se afiseaza coloana cu indexarea specificata
+	if (j < 26) {
+		printf("%c\n", j + 'A');
+	} else if (j < 26 * 27) {
+		printf("%c%c\n", j / 26 - 1 + 'A', j % 26 + 'A');
+	} else {
+		printf("%c", j / 676 - 1 + 'A');
+		printf("%c%c\n", (j / 26) % 26 - 1 + 'A', j % 26 + 'A');
+	}
+
+	return 0;
+}
